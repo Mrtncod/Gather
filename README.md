@@ -4,6 +4,14 @@
 
 Gather helps people decide what to cook, keep recipes and ingredients together, and shop with a clear list. It is a responsive Next.js app built around an everyday workflow: discover or create a dish, plan the week, then shop from the ingredients that meal needs.
 
+**[Open the live demo →](https://gather-web.netlify.app/)**
+
+## Screenshots
+
+| Weekly meal plan | Recipe discovery |
+| --- | --- |
+| ![Gather weekly meal plan dashboard](docs/screenshots/weekly-plan.webp) | ![Gather recipe search and discovery view](docs/screenshots/recipe-discovery.webp) |
+
 ## Explore the app
 
 1. Search TheMealDB or create a personal recipe with ingredients and optional preparation notes.

@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --canvas: 250 251 249;
+  --surface: 255 255 255;
+  --ink: 37 43 40;
+  --muted: 140 147 142;
+  --line: 236 238 234;
+  --forest: 72 100 82;
+  --sage: 128 154 131;
+  --peach: 221 168 130;
+  --soft: 247 248 245;
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: 22 27 24;
+  --surface: 29 35 31;
+  --ink: 235 239 235;
+  --muted: 151 163 154;
+  --line: 53 63 56;
+  --forest: 144 174 148;
+  --sage: 131 164 135;
+  --peach: 226 174 139;
+  --soft: 35 43 37;
+}
+
+@layer base {
+  html { min-height: 100%; }
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background-color: rgb(var(--canvas));
+    color: rgb(var(--ink));
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, select { font: inherit; }
+  button { cursor: pointer; }
+}

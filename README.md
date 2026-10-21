@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# Gather
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**A weekly meal planner that turns recipes into a practical shopping list.**
 
-## Available Scripts
+Gather helps people decide what to cook, keep recipes and ingredients together, and shop with a clear list. It is a responsive Next.js app built around an everyday workflow: discover or create a dish, plan the week, then shop from the ingredients that meal needs.
 
-In the project directory, you can run:
+## Explore the app
 
-### `npm start`
+1. Search TheMealDB or create a personal recipe with ingredients and optional preparation notes.
+2. Choose a day and meal slot, then add the recipe to the weekly plan.
+3. Open any recipe to read the complete preparation steps, ingredient amounts, and available source or video link.
+4. Shop from the combined ingredient list or switch to a meal-by-meal view. Search, filter, check off, or remove items as you go.
+5. Save favorite recipes, personalize your space, and switch between light and dark themes.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+New plans start empty. **Try sample week** is an optional, one-click demo that adds four editable meals and their ingredients, so visitors can explore the complete flow without entering data first.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- Weekly meal planning for breakfast, lunch, and dinner, with week navigation and a mobile day selector.
+- Recipe search and detail lookup through a same-origin Next.js API route.
+- Custom recipes with ingredient amounts and optional preparation steps.
+- Recipe favorites and full recipe details from both recipe cards and planned meals.
+- Shopping list grouped by ingredient or by meal, with quantity summaries where units are compatible.
+- Needed/in-basket filters, ingredient search, custom grocery entry, and per-item removal.
+- Browser persistence, including migration from the earlier shopping-list storage format.
+- Responsive desktop and mobile layouts, keyboard-operable controls, accessible labels, and light/dark themes.
+- Optional sample-week data that demonstrates the product without adding defaults to a new user's plan.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Architecture
 
-### `npm run build`
+```mermaid
+flowchart LR
+  User[User actions] --> Page[App dashboard]
+  Page --> RecipeUI[Recipe planner]
+  Page --> WeekUI[Weekly plan]
+  Page --> ShopUI[Shopping list]
+  RecipeUI --> SearchHook[Recipe search hook]
+  SearchHook --> Client[Recipe API client]
+  Client --> Proxy[Next.js API route]
+  Proxy --> MealDB[TheMealDB]
+  RecipeUI --> State[Context and reducer]
+  WeekUI --> State
+  State --> Derived[Memoized shopping-list data]
+  Derived --> ShopUI
+  ShopUI --> State
+  State <--> Storage[(Browser localStorage)]
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The dashboard coordinates the feature views. Shared meal and grocery state lives in a React Context reducer; stable actions let each view update the same plan without keeping duplicate copies. Shopping groups and counts are derived and memoized from that state. Recipe search, API access, recipe normalization, and recipe presentation are kept in separate modules so API results and user-created recipes use a common shape.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Tech stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Area | Technology |
+| --- | --- |
+| Application | Next.js App Router, React |
+| Styling | Tailwind CSS, CSS custom-property design tokens |
+| Shared state | React Context and `useReducer` |
+| Recipe data | TheMealDB through a Next.js route handler |
+| Persistence | Browser `localStorage` |
+| Deployment | Netlify with GitHub-connected builds |
 
-### `npm run eject`
+## Project structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```text
+app/
+  api/recipes/          Recipe search and detail lookup proxy
+  layout.js             Root layout, theme initialization, and metadata
+  page.js               Dashboard state coordination and view selection
+features/
+  dashboard/            Navigation, dialogs, and personal preferences
+  meal-planning/        Weekly plan, day cards, shopping list, demo data, and hooks
+  recipes/              API client, search hook, normalization, details, and forms
+  shopping/             Shared reducer, stable actions, and browser persistence
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Run locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm install
+npm run dev
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Open [http://localhost:3000](http://localhost:3000). Recipe search and detail lookup need an internet connection. The sample week and custom recipes work without a recipe-service response. No API key or environment variables are required.
 
-## Learn More
+## Quality checks
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm run lint
+npm run build
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Deploying on Netlify
 
-### Code Splitting
+Connect the existing GitHub repository to the Netlify site and deploy the branch you want to publish. Netlify detects Next.js and supports the App Router and route handlers through its Next.js adapter. If the build settings need to be entered manually, use `npm run build` as the build command and `.next` as the publish directory. No application environment variables are required. See [Netlify's Next.js setup guide](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/) for current platform details.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Current scope and tradeoffs
 
-### Analyzing the Bundle Size
+Gather is a single-browser portfolio app: it has no accounts, cross-device household sync, or server-side database. Plans and preferences stay in the current browser. Recipe search and detail lookup depend on TheMealDB availability. Ingredient amounts are preserved and compatible simple amounts can be totalled, but arbitrary units and pack sizes are not converted or inferred.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The next product-sized improvements would be automated interaction and quantity tests, user-controlled servings with ingredient scaling, and shared household sync.

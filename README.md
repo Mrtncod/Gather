@@ -92,7 +92,7 @@ npm start
 
 ## Deploying on Netlify
 
-Connect the existing GitHub repository to the Netlify site and deploy the branch you want to publish. Netlify detects Next.js and supports the App Router and route handlers through its Next.js adapter. If the build settings need to be entered manually, use `npm run build` as the build command and `.next` as the publish directory. No application environment variables are required. See [Netlify's Next.js setup guide](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/) for current platform details.
+Connect the existing GitHub repository to the Netlify site and deploy the branch you want to publish. The Netlify Next.js adapter is registered in `netlify.toml` so App Router pages and route handlers are served correctly. Use `npm run build` as the build command and `.next` as the publish directory. No application environment variables are required. See [Netlify's Next.js setup guide](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/) for current platform details.
 
 ## Current scope and tradeoffs
 

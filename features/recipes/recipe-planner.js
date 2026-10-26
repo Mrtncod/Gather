@@ -248,7 +248,7 @@ export function RecipePlanner({
         </div>
       )}
 
-      {showCustomForm &&
+      {!favoritesOnly && showCustomForm &&
         (slotTaken ? (
           <div className="rounded-xl border border-line bg-canvas p-4 text-[11px] text-muted">
             {slot} is already planned for this day. Choose another meal slot to

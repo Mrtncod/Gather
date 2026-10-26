@@ -61,16 +61,18 @@ function ShoppingListControls({
 
 function CombinedShoppingGroups({ groups, onToggle, onRemove }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:grid-cols-3">
       {groups.map((group) => {
         const total = summarizeQuantities(group.usages);
         return (
           <article
             key={group.name.toLowerCase()}
-            className="rounded-lg border border-line bg-surface px-3 py-2.5"
+            className="min-w-0 rounded-lg border border-line bg-surface px-3 py-2.5"
           >
             <header className="mb-1 flex items-baseline justify-between gap-2">
-              <b className="truncate text-[11px] font-semibold">{group.name}</b>
+              <b className="min-w-0 truncate text-[11px] font-semibold">
+                {group.name}
+              </b>
               <span className="shrink-0 text-[9px] font-medium text-sage">
                 {total ||
                   `${group.usages.length} ${group.usages.length === 1 ? "use" : "uses"}`}
@@ -93,11 +95,11 @@ function CombinedShoppingGroups({ groups, onToggle, onRemove }) {
 
 function MealShoppingGroups({ groups, onToggle, onRemove }) {
   return (
-    <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid min-w-0 gap-2 sm:grid-cols-2 xl:grid-cols-3">
       {groups.map(([key, group]) => (
         <article
           key={key}
-          className="rounded-lg border border-line bg-surface px-3 py-2.5"
+          className="min-w-0 rounded-lg border border-line bg-surface px-3 py-2.5"
         >
           <header className="mb-1 flex items-baseline justify-between gap-2">
             <div className="min-w-0">
@@ -168,7 +170,7 @@ export function ShoppingListView({
   );
 
   return (
-    <section className="flex min-h-0 flex-none flex-col rounded-xl border border-line bg-surface px-3.5 pt-4 shadow-sm sm:px-5 sm:pt-5 lg:min-h-0 lg:flex-1">
+    <section className="flex min-h-0 min-w-0 flex-none flex-col rounded-xl border border-line bg-surface px-3.5 pt-4 shadow-sm sm:px-5 sm:pt-5 lg:min-h-0 lg:flex-1">
       <div className="mb-3 flex shrink-0 flex-wrap items-center justify-between gap-2">
         <div>
           <p className="text-[8px] font-bold tracking-[1.3px] text-muted">
@@ -198,7 +200,7 @@ export function ShoppingListView({
         <span>{counts.checked} checked</span>
       </div>
 
-      <div className="min-h-[55vh] flex-none overflow-visible pb-2 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
+      <div className="min-h-[55vh] min-w-0 flex-none overflow-visible pb-2 lg:min-h-0 lg:flex-1 lg:overflow-y-auto">
         {!visibleEntries.length ? (
           <ShoppingEmptyState query={query} />
         ) : layout === "Combined" ? (
@@ -217,7 +219,8 @@ export function ShoppingListView({
       </div>
 
       <footer className="flex h-10 shrink-0 items-center justify-between border-t border-line text-[9px] text-muted">
-        <span>Meal ingredients stay connected to their day and dish.</span>
+        {/* <span>Meal ingredients stay connected to their day and dish.</span> */}
+        <span>Your ingredients</span>
         <span>
           {days[0]?.dateLabel || ""} – {days[6]?.dateLabel || ""}
         </span>

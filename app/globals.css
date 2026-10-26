@@ -41,3 +41,15 @@
   button, input, select { font: inherit; }
   button { cursor: pointer; }
 }
+
+/* Nudge compact UI copy up by 2px for easier reading at every breakpoint. */
+@layer utilities {
+  [class~="text-[8px]"] { font-size: 10px; }
+  [class~="text-[9px]"] { font-size: 11px; }
+  [class~="text-[10px]"] { font-size: 12px; }
+  [class~="text-[11px]"] { font-size: 13px; }
+  [class~="text-[13px]"] { font-size: 15px; }
+  [class~="sm:text-[10px]"] { font-size: 12px; }
+  [class~="sm:text-[11px]"] { font-size: 13px; }
+  [class~="sm:text-[13px]"] { font-size: 15px; }
+}
